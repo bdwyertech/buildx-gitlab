@@ -18,7 +18,7 @@ import (
 )
 
 func main() {
-	configFile := "/root/.docker/config.json"
+	configFile := "/home/user/.docker/config.json"
 	// configFile := "test/config.json"
 	jsonFile, err := os.OpenFile(configFile, os.O_RDWR|os.O_CREATE, 0644)
 	if err != nil {
