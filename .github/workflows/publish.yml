@@ -22,9 +22,10 @@ jobs:
         include:
           - prefix: ''
     permissions:
-      contents: read
+      contents: read  # Read the repo contents.
+      id-token: write # Produce identity token for keyless signing.
       packages: write
-
+      security-events: write # For Scan results
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -67,4 +68,19 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          no-cache-filters: certs
+          # https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md#github-cache
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+          provenance: true
+          sbom: true
           # build-args: ANSIBLE=${{ matrix.ansible }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.31.0
+        with:
+          image-ref: ${{ env.GHCR_IMAGE_NAME }}:latest
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
