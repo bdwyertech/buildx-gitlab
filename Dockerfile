@@ -28,5 +28,7 @@ WORKDIR /buildx
 
 RUN mkdir -p /home/user/.docker
 
+ENV BUILDKITD_FLAGS=--oci-worker-no-process-sandbox
+
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
