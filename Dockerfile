@@ -26,5 +26,7 @@ LABEL org.opencontainers.image.title="bdwyertech/buildx-gitlab" \
 
 WORKDIR /buildx
 
+RUN mkdir -p /home/user/.docker
+
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
