@@ -3,7 +3,7 @@ WORKDIR /go/src/github.com/bdwyertech/buildx-gitlab/helper-utility
 COPY helper-utility/ .
 RUN CGO_ENABLED=0 GOFLAGS=-mod=vendor go build -ldflags="-s -w" -trimpath .
 
-FROM moby/buildkit:v0.22.0-rootless
+FROM moby/buildkit:v0.22.0
 
 COPY --from=helper /go/src/github.com/bdwyertech/buildx-gitlab/helper-utility/helper-utility /usr/local/bin/.
 
@@ -26,7 +26,7 @@ LABEL org.opencontainers.image.title="bdwyertech/buildx-gitlab" \
 
 WORKDIR /buildx
 
-RUN mkdir -p /home/user/.docker
+RUN mkdir -p /root/.docker
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
