@@ -78,7 +78,7 @@ jobs:
           # build-args: ANSIBLE=${{ matrix.ansible }}
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.31.0
+        uses: aquasecurity/trivy-action@0.33.0
         with:
           image-ref: ${{ env.GHCR_IMAGE_NAME }}:latest
           format: 'sarif'
